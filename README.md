@@ -2,6 +2,30 @@
 
 API REST para gerenciamento de filmes e sessoes de cinema, com cadastro de usuarios, autenticacao JWT, painel administrativo do Django e seed para popular o banco com dados iniciais.
 
+## Como rodar o projeto
+
+Passo a passo rapido para executar localmente:
+
+1. Instale as dependencias.
+2. Crie o arquivo `.env` com base no `.env.example`.
+3. Rode as migracoes.
+4. Opcionalmente popule o banco com filmes e sessoes.
+5. Inicie o servidor Django.
+
+Exemplo no Windows com `venv`:
+
+```powershell
+python -m venv venv
+venv\Scripts\activate
+pip install django djangorestframework python-decouple "psycopg[binary]" djangorestframework-simplejwt
+copy .env.example .env
+python manage.py migrate
+python manage.py seed_movies
+python manage.py runserver
+```
+
+Aplicacao disponivel em `http://127.0.0.1:8000/`.
+
 ## Stack usada
 
 - Python 3.11+
@@ -72,8 +96,6 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Aplicacao disponivel em `http://127.0.0.1:8000/`.
-
 ## Interface web
 
 Tambem foram adicionadas telas HTML integradas ao backend para demonstrar as funcionalidades iniciais:
@@ -81,12 +103,14 @@ Tambem foram adicionadas telas HTML integradas ao backend para demonstrar as fun
 - `GET /login/` para login de usuarios
 - `GET /register/` para cadastro de usuarios
 - `GET /movies/` para listar todos os filmes ativos
+- clique em um filme na tela `/movies/` para listar as sessoes desse titulo
 
 Fluxo sugerido:
 
 1. Acesse `http://127.0.0.1:8000/register/` para criar um usuario.
 2. Faca login em `http://127.0.0.1:8000/login/`.
 3. Depois do login, a interface redireciona para `http://127.0.0.1:8000/movies/`.
+4. Clique em qualquer card de filme para carregar as sessoes disponiveis logo abaixo.
 
 Observacao: a tela de filmes depende de um token JWT armazenado no navegador apos o login.
 
