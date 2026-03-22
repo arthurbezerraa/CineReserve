@@ -21,7 +21,7 @@ function setFeedback(elementId, message, type = "") {
 
 function normalizeErrors(payload) {
     if (!payload) {
-        return "Não foi possível concluir a ação.";
+        return "Nao foi possivel concluir a acao.";
     }
 
     if (typeof payload.detail === "string") {
@@ -38,7 +38,7 @@ function normalizeErrors(payload) {
         }
     });
 
-    return messages.join(" ") || "Não foi possível concluir a ação.";
+    return messages.join(" ") || "Nao foi possivel concluir a acao.";
 }
 
 function saveTokens(access, refresh) {
@@ -137,7 +137,7 @@ function bindRegisterForm() {
                 body,
             });
 
-            setFeedback("register-feedback", "Conta criada com sucesso. Faça login para continuar.", "success");
+            setFeedback("register-feedback", "Conta criada com sucesso. Faca login para continuar.", "success");
             form.reset();
         } catch (error) {
             setFeedback("register-feedback", error.message, "error");
@@ -147,13 +147,27 @@ function bindRegisterForm() {
 
 function formatDate(dateString) {
     if (!dateString) {
-        return "Data indisponível";
+        return "Data indisponivel";
     }
 
     return new Intl.DateTimeFormat("pt-BR", {
         day: "2-digit",
         month: "short",
         year: "numeric",
+    }).format(new Date(dateString));
+}
+
+function formatDateTime(dateString) {
+    if (!dateString) {
+        return "Horario indisponivel";
+    }
+
+    return new Intl.DateTimeFormat("pt-BR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
     }).format(new Date(dateString));
 }
 
@@ -171,18 +185,71 @@ function renderMovies(movies) {
     grid.innerHTML = movies
         .map(
             (movie) => `
-                <article class="movie-card">
+                <button class="movie-card" type="button" data-movie-id="${movie.id}" data-movie-title="${movie.title}">
                     <span class="movie-tag">${movie.genre}</span>
                     <h3>${movie.title}</h3>
                     <div class="movie-meta">
-                        <span>Lançamento: ${formatDate(movie.release_date)}</span>
+                        <span>Lancamento: ${formatDate(movie.release_date)}</span>
                         <span>ID: ${movie.id}</span>
                     </div>
                     <p class="movie-description">${movie.description}</p>
+                </button>
+            `
+        )
+        .join("");
+}
+
+function renderSessions(sessions) {
+    const grid = document.getElementById("sessions-grid");
+    if (!grid) {
+        return;
+    }
+
+    if (!sessions.length) {
+        grid.innerHTML = '<div class="empty-state">Esse filme ainda nao possui sessoes cadastradas.</div>';
+        return;
+    }
+
+    grid.innerHTML = sessions
+        .map(
+            (session) => `
+                <article class="session-card">
+                    <h3>Sala ${session.room_number}</h3>
+                    <div class="session-meta">
+                        <span>Inicio: ${formatDateTime(session.start_time)}</span>
+                        <span>Fim: ${formatDateTime(session.end_time)}</span>
+                        <span>Sessao #${session.id}</span>
+                    </div>
                 </article>
             `
         )
         .join("");
+}
+
+function updateSelectedMovie(movieId) {
+    document.querySelectorAll(".movie-card").forEach((card) => {
+        card.classList.toggle("is-selected", card.dataset.movieId === String(movieId));
+    });
+}
+
+async function loadSessions(movieId, movieTitle) {
+    const title = document.getElementById("sessions-title");
+    if (title) {
+        title.textContent = `Sessoes de ${movieTitle}`;
+    }
+
+    setFeedback("sessions-feedback", "Carregando sessoes...");
+
+    try {
+        const payload = await request(`/api/movies/${movieId}/sessions/`);
+        const sessions = Array.isArray(payload) ? payload : payload.results || [];
+        renderSessions(sessions);
+        setFeedback("sessions-feedback", `${sessions.length} sessao(oes) encontrada(s).`, "success");
+        updateSelectedMovie(movieId);
+    } catch (error) {
+        renderSessions([]);
+        setFeedback("sessions-feedback", error.message, "error");
+    }
 }
 
 async function loadMovies() {
@@ -202,6 +269,7 @@ function bindMoviesPage() {
     const sessionIndicator = document.getElementById("session-indicator");
     const reloadButton = document.getElementById("reload-movies");
     const logoutButton = document.getElementById("logout-button");
+    const moviesGrid = document.getElementById("movies-grid");
 
     if (!sessionIndicator) {
         return;
@@ -212,10 +280,18 @@ function bindMoviesPage() {
         return;
     }
 
-    sessionIndicator.textContent = "Sessão JWT armazenada no navegador";
+    sessionIndicator.textContent = "Sessao JWT armazenada no navegador";
     loadMovies();
 
     reloadButton?.addEventListener("click", loadMovies);
+    moviesGrid?.addEventListener("click", (event) => {
+        const trigger = event.target.closest(".movie-card");
+        if (!trigger) {
+            return;
+        }
+
+        loadSessions(trigger.dataset.movieId, trigger.dataset.movieTitle);
+    });
     logoutButton?.addEventListener("click", () => {
         clearTokens();
         window.location.href = "/login/";

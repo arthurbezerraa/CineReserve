@@ -7,15 +7,15 @@
 <main class="shell movies-shell">
     <section class="movies-header">
         <div>
-            <p class="eyebrow">Catálogo ativo</p>
-            <h1>Todos os filmes disponíveis</h1>
+            <p class="eyebrow">Catalogo ativo</p>
+            <h1>Todos os filmes disponiveis</h1>
             <p class="hero-copy">
-                Visualize os títulos ativos retornados pela API com uma apresentação em cards pronta para evoluir.
+                Visualize os titulos ativos retornados pela API e clique em um filme para consultar as sessoes cadastradas.
             </p>
         </div>
 
         <div class="toolbar">
-            <div class="token-indicator" id="session-indicator">Sessão não identificada</div>
+            <div class="token-indicator" id="session-indicator">Sessao nao identificada</div>
             <button id="logout-button" class="ghost-button" type="button">Sair</button>
         </div>
     </section>
@@ -23,7 +23,7 @@
     <section class="card catalog-panel">
         <div class="panel-top">
             <div>
-                <p class="section-kicker">Funcionalidade 2</p>
+                <p class="section-kicker">Filmes</p>
                 <h2>Listagem de filmes</h2>
             </div>
             <button id="reload-movies" class="ghost-button" type="button">Atualizar</button>
@@ -31,6 +31,20 @@
 
         <div id="movies-feedback" class="feedback" role="status" aria-live="polite"></div>
         <div id="movies-grid" class="movies-grid"></div>
+    </section>
+
+    <section class="card sessions-panel">
+        <div class="panel-top">
+            <div>
+                <p class="section-kicker">Sessoes do filme</p>
+                <h2 id="sessions-title">Selecione um filme</h2>
+            </div>
+        </div>
+
+        <div id="sessions-feedback" class="feedback" role="status" aria-live="polite"></div>
+        <div id="sessions-grid" class="sessions-grid">
+            <div class="empty-state">Clique em um filme para ver as sessoes disponiveis.</div>
+        </div>
     </section>
 </main>
 {% endblock %}
