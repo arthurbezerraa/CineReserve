@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar | CineReserve{% endblock %}
+{% block page_id %}register{% endblock %}
+
+{% block body %}
+<main class="shell auth-shell">
+    <section class="hero-panel">
+        <p class="eyebrow">User onboarding</p>
+        <h1>Crie sua conta e deixe o acesso ao portal preparado em poucos segundos.</h1>
+        <p class="hero-copy">
+            O cadastro conversa direto com a API de usuários e já deixa a navegação pronta para seguir até a lista de filmes.
+        </p>
+        <div class="hero-badges">
+            <span>Username único</span>
+            <span>E-mail validado</span>
+            <span>Senha segura</span>
+        </div>
+    </section>
+
+    <section class="card auth-card">
+        <div class="card-heading">
+            <p class="section-kicker">Funcionalidade 2</p>
+            <h2>Registro de usuários</h2>
+            <p>Preencha os dados abaixo para criar um novo acesso.</p>
+        </div>
+
+        <form id="register-form" class="stack-form">
+            <label>
+                <span>Usuário</span>
+                <input type="text" name="username" placeholder="Escolha um username" required>
+            </label>
+
+            <label>
+                <span>E-mail</span>
+                <input type="email" name="email" placeholder="voce@exemplo.com" required>
+            </label>
+
+            <label>
+                <span>Senha</span>
+                <input type="password" name="password" placeholder="Mínimo de 6 caracteres" minlength="6" required>
+            </label>
+
+            <button type="submit" class="primary-button">Criar conta</button>
+        </form>
+
+        <div id="register-feedback" class="feedback" role="status" aria-live="polite"></div>
+
+        <div class="split-line"></div>
+
+        <p class="helper-copy">
+            Já possui conta?
+            <a href="{% url 'login-page' %}">Voltar para login</a>
+        </p>
+    </section>
+</main>
+{% endblock %}

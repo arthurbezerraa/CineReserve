@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Entrar | CineReserve{% endblock %}
+{% block page_id %}login{% endblock %}
+
+{% block body %}
+<main class="shell auth-shell">
+    <section class="hero-panel">
+        <p class="eyebrow">Cinema operations hub</p>
+        <h1>Entre e acompanhe os filmes em cartaz com uma interface clara e direta.</h1>
+        <p class="hero-copy">
+            Faça login com JWT, navegue pela vitrine de títulos ativos e deixe o backend pronto para evoluir com sessões, ingressos e reservas.
+        </p>
+        <div class="hero-badges">
+            <span>Login seguro</span>
+            <span>Registro rápido</span>
+            <span>Lista de filmes</span>
+        </div>
+    </section>
+
+    <section class="card auth-card">
+        <div class="card-heading">
+            <p class="section-kicker">Funcionalidade 1</p>
+            <h2>Login de usuários</h2>
+            <p>Use seu usuário e senha para obter os tokens de acesso.</p>
+        </div>
+
+        <form id="login-form" class="stack-form">
+            <label>
+                <span>Usuário</span>
+                <input type="text" name="username" placeholder="Digite seu username" required>
+            </label>
+
+            <label>
+                <span>Senha</span>
+                <input type="password" name="password" placeholder="Digite sua senha" required>
+            </label>
+
+            <button type="submit" class="primary-button">Entrar</button>
+        </form>
+
+        <div id="login-feedback" class="feedback" role="status" aria-live="polite"></div>
+
+        <div class="split-line"></div>
+
+        <p class="helper-copy">
+            Ainda não tem conta?
+            <a href="{% url 'register-page' %}">Criar cadastro</a>
+        </p>
+    </section>
+</main>
+{% endblock %}

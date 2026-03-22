@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Filmes | CineReserve{% endblock %}
+{% block page_id %}movies{% endblock %}
+
+{% block body %}
+<main class="shell movies-shell">
+    <section class="movies-header">
+        <div>
+            <p class="eyebrow">Catálogo ativo</p>
+            <h1>Todos os filmes disponíveis</h1>
+            <p class="hero-copy">
+                Visualize os títulos ativos retornados pela API com uma apresentação em cards pronta para evoluir.
+            </p>
+        </div>
+
+        <div class="toolbar">
+            <div class="token-indicator" id="session-indicator">Sessão não identificada</div>
+            <button id="logout-button" class="ghost-button" type="button">Sair</button>
+        </div>
+    </section>
+
+    <section class="card catalog-panel">
+        <div class="panel-top">
+            <div>
+                <p class="section-kicker">Funcionalidade 2</p>
+                <h2>Listagem de filmes</h2>
+            </div>
+            <button id="reload-movies" class="ghost-button" type="button">Atualizar</button>
+        </div>
+
+        <div id="movies-feedback" class="feedback" role="status" aria-live="polite"></div>
+        <div id="movies-grid" class="movies-grid"></div>
+    </section>
+</main>
+{% endblock %}

@@ -74,6 +74,22 @@ python manage.py runserver
 
 Aplicacao disponivel em `http://127.0.0.1:8000/`.
 
+## Interface web
+
+Tambem foram adicionadas telas HTML integradas ao backend para demonstrar as funcionalidades iniciais:
+
+- `GET /login/` para login de usuarios
+- `GET /register/` para cadastro de usuarios
+- `GET /movies/` para listar todos os filmes ativos
+
+Fluxo sugerido:
+
+1. Acesse `http://127.0.0.1:8000/register/` para criar um usuario.
+2. Faca login em `http://127.0.0.1:8000/login/`.
+3. Depois do login, a interface redireciona para `http://127.0.0.1:8000/movies/`.
+
+Observacao: a tela de filmes depende de um token JWT armazenado no navegador apos o login.
+
 ## Como rodar seed
 
 O projeto possui um comando que cria 5 filmes e pelo menos 3 sessoes para cada um.
